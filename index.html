@@ -1,19 +1,95 @@
-// Set your desired Teacher PIN here
-const TEACHER_PIN = "1234"; 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TEEEL Writer Pro</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; padding: 0; background-color: #f4f6f8; }
+    .container { max-width: 800px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    h1 { text-align: center; color: #2c3e50; }
+    .nav-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+    .tab-btn { flex: 1; padding: 10px; border: none; background: #e0e0e0; cursor: pointer; font-size: 16px; border-radius: 5px; }
+    .tab-btn.active { background: #3498db; color: white; font-weight: bold; }
+    .form-group { margin-bottom: 15px; }
+    label { font-weight: bold; display: block; margin-bottom: 5px; }
+    textarea, input { width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+    .hidden { display: none; }
+    .btn { background: #2ecc71; color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; font-size: 16px; }
+    .btn:hover { background: #27ae60; }
+  </style>
+</head>
+<body>
 
-function toggleMode(mode) {
-  if (mode === 'teacher') {
-    // If switching to Teacher Mode, prompt for PIN
-    const enteredPin = prompt("Enter Teacher Security PIN to access grading & logs:");
-    if (enteredPin !== TEACHER_PIN) {
-      alert("Incorrect PIN! Access denied.");
-      return; // Stop execution, stay in Student Mode
+  <div class="container">
+    <h1>TEEEL Writer Pro</h1>
+
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs">
+      <button id="btn-student" class="tab-btn active" onclick="toggleMode('student')">Student Mode</button>
+      <button id="btn-teacher" class="tab-btn" onclick="toggleMode('teacher')">Teacher Mode</button>
+    </div>
+
+    <!-- Student View -->
+    <div id="student-view">
+      <h3>Draft Your TEEEL Paragraph</h3>
+      <div class="form-group">
+        <label>Topic Sentence (T):</label>
+        <textarea id="topic" placeholder="State your main point..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Explanation (E):</label>
+        <textarea id="explanation" placeholder="Explain why/how..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Example (E):</label>
+        <textarea id="example" placeholder="Provide evidence/examples..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Elaboration (E):</label>
+        <textarea id="elaboration" placeholder="Elaborate on the example..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Link (L):</label>
+        <textarea id="link" placeholder="Link back to the prompt..."></textarea>
+      </div>
+    </div>
+
+    <!-- Teacher View -->
+    <div id="teacher-view" class="hidden">
+      <h3>Teacher Grading & Evaluation Dashboard</h3>
+      <p>Welcome, Teacher! Enter marks and feedback for student submissions below.</p>
+      <div class="form-group">
+        <label>Student Name:</label>
+        <input type="text" placeholder="Enter student name">
+      </div>
+      <div class="form-group">
+        <label>Score (/15):</label>
+        <input type="number" max="15" min="0" placeholder="15">
+      </div>
+      <button class="btn">Save Assessment</button>
+    </div>
+  </div>
+
+  <script>
+    /* Teacher Mode Security PIN */
+    const TEACHER_PIN = "1425";
+
+    function toggleMode(mode) {
+      if (mode === 'teacher') {
+        const enteredPin = prompt("Enter Teacher Security PIN to access grading & logs:");
+        if (enteredPin !== TEACHER_PIN) {
+          alert("Incorrect PIN! Access denied.");
+          return;
+        }
+      }
+
+      document.getElementById('btn-student').classList.toggle('active', mode === 'student');
+      document.getElementById('btn-teacher').classList.toggle('active', mode === 'teacher');
+      document.getElementById('student-view').classList.toggle('hidden', mode !== 'student');
+      document.getElementById('teacher-view').classList.toggle('hidden', mode !== 'teacher');
     }
-  }
+  </script>
 
-  // Update UI mode buttons and active view
-  document.getElementById('btn-student').classList.toggle('active', mode === 'student');
-  document.getElementById('btn-teacher').classList.toggle('active', mode === 'teacher');
-  document.getElementById('student-view').classList.toggle('hidden', mode !== 'student');
-  document.getElementById('teacher-view').classList.toggle('hidden', mode !== 'teacher');
-}
+</body>
+</html>
